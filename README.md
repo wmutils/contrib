@@ -22,4 +22,10 @@ set borders accordingly. Uses `$BW`, `$ACTIVE` and `$INACTIVE` from environment.
 
     usage: focus.sh <next|prev|wid>
 
+### focus\_watcher.sh
+Focus a new window (using focus.sh) upon its creation.
+Depends on `wew(1)` (opt repo)  and `focus.sh` (contrib repo)
+
+    usage: focus_watcher.sh
+
 *... to be continued*
