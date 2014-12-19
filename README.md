@@ -16,5 +16,10 @@ time. Uses `$FSFILE` from environment.
 
     usage: fullscreen.sh <wid>
 
+### focus.sh
+Focus either a specific window, or the next/previous window in the stack. Then
+set borders accordingly. Uses `$BW`, `$ACTIVE` and `$INACTIVE` from environment.
+
+    usage: focus.sh <next|prev|wid>
 
 *... to be continued*
