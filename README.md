@@ -3,26 +3,18 @@ contrib
 
 Repository hosting inspirationnal wmutils snippets.
 
-tile.sh
--------
-### usage
-    tile.sh
-    (uses $GAP and $MASTER from environment)
-
-### description
+### tile.sh
 Arrange your windows in a tiled pattern consisting of one master area, and a
-stacking area.
+stacking area. Uses `$GAP` and `$MASTER` from environment.
 
-fullscreen.sh
--------------
-### usage
-    fullscreen.sh <wid>
-    (uses $FSFILE from environment)
+    usage: tile.sh
 
-### description
+### fullscreen.sh
 Set a window in fullscreen mode, removing borders from it and putting it in
 front of all other windows. There can only be one window in fullscreen at a
-time.
+time. Uses `$FSFILE` from environment.
+
+    usage: fullscreen.sh <wid>
 
 
 *... to be continued*
