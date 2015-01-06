@@ -18,6 +18,9 @@ usage() {
 setborder() {
     ROOT=$(lsw -r)
 
+    # check if window exists
+    wattr $2 || return
+
     # do not modify border of fullscreen windows
     test "$(wattr xywh $2)" = "$(wattr xywh $ROOT)" && return
 
@@ -41,5 +44,7 @@ setborder inactive $CUR # set inactive border on current window
 setborder active $wid   # activate the new window
 chwso -r $wid           # put it on top of the stack
 wtf $wid                # set focus on it
+
+# you might want to remove this for sloppy focus
 wmp -a $(wattr xy $wid) # move the mouse cursor to
 wmp -r $(wattr wh $wid) # .. its bottom right corner

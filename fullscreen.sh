@@ -2,6 +2,7 @@
 #
 # z3bra - 2014 (c) wtfpl
 # toggle the fullscreen state of a window
+# depends on: focus.sh
 
 # this file is used to store the previous geometry of a window
 FSFILE=${FSFILE:-~/.fwin}
@@ -37,7 +38,4 @@ fi
 
 # now focus the window, and put it in front, no matter which state we're in, and
 # put the cursor on its bottom-right corner (for consistency)
-wtf $1
-chwso -r $1
-wmp -a $(wattr xy $1)
-wmp -r $(wattr wh $1)
+focus.sh $1
