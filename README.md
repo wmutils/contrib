@@ -28,4 +28,10 @@ Depends on `wew(1)` (opt repo)  and `focus.sh` (contrib repo)
 
     usage: focus_watcher.sh
 
+### rainbow.sh
+Make the current window border cycle all the rainbow colors. Uses `$FREQ` from
+environment.
+
+    usage: rainbow.sh
+
 *... to be continued*
