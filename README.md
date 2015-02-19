@@ -34,4 +34,9 @@ environment.
 
     usage: rainbow.sh
 
+### closest.sh
+Focus the closest window in a specific direction.
+
+    usage closest.sh <direction>
+
 *... to be continued*
