@@ -4,6 +4,7 @@
 # arrange windows in a tiled pattern
 
 # default values for gaps and master area
+PANEL=${PANEL:-0}
 GAP=${GAP:-20}
 MASTER=${MASTER:-900}
 
@@ -21,13 +22,13 @@ MAX=$(lsw|grep -v $PFW|wc -l)
 
 # calculate usable screen size (without borders and gaps)
 SW=$((SW - GAP - 2*BW))
-SH=$((SH - GAP - 2*BW))
+SH=$((SH - GAP - 2*BW - PANEL))
 
+Y=$((0 + GAP + PANEL))
 # put current window in master area
-wtp $GAP $GAP $((MASTER - GAP - 2*BW)) $((SH - GAP)) $PFW
+wtp $GAP $Y $((MASTER - GAP - 2*BW)) $((SH - GAP)) $PFW
 
 # and now, stack up all remaining windows on the right
-Y=$((0 + GAP))
 X=$((MASTER + GAP))
 W=$((SW - MASTER - GAP))
 H=$((SH / MAX - GAP - 2*BW))
