@@ -26,10 +26,9 @@ while read line; do
     X=$((X + W))
 done < $TEMP
 
-# loop through wew or whatever to hear for event #9 (XCB_FOCUS_IN)
+# loop through wew to hear for when you focus a new window
 wew -m 16 | while IFS=: read ev wid; do
     case $ev in
-        # XCB_FOCUS_IN
         22)
             while read line; do
                 wtp $line
