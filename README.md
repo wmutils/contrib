@@ -46,6 +46,6 @@ feature.
 
 Depends on `wew(1)` (opt repo)  and `focus.sh` (contrib repo)
 
-    usage" switch_grid.sh
+    usage: switch_grid.sh
 
 *... to be continued*
