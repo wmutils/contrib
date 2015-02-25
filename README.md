@@ -38,7 +38,7 @@ environment.
 ### closest.sh
 Focus the closest window in a specific direction.
 
-    usage closest.sh <direction>
+    usage: closest.sh <direction>
 
 ### switch\_grid.sh
 A simpler version of OS X Mission Control feature, or GNOME Shell's Overview
@@ -46,6 +46,6 @@ feature.
 
 Depends on `wew(1)` (opt repo)  and `focus.sh` (contrib repo)
 
-    usage switch_grid.sh
+    usage" switch_grid.sh
 
 *... to be continued*
