@@ -1,10 +1,11 @@
 #!/bin/sh
 #
-# Copyright (c) 2015 Greduan <me@greduan.com>, licensed under the ISC license
+# Copyright (c) 2015 Greduan <me@greduan.com>, licensed under the WTFPL license
 #
 # When used puts all the windows in a grid and when you focus one of the windows
 # it puts all the windows back to their original location and focuses the window
-# you switched to
+# you switched to.
+# depends on: wew focus.sh
 
 ROOT=$(lsw -r)
 SW=$(wattr w $ROOT)
@@ -26,14 +27,15 @@ while read line; do
 done < $TEMP
 
 # loop through wew or whatever to hear for event #9 (XCB_FOCUS_IN)
-wew -a | while IFS=: read ev wid; do
+wew -m 16 | while IFS=: read ev wid; do
     case $ev in
         # XCB_FOCUS_IN
-        9)
+        22)
             while read line; do
                 wtp $line
        	    done < $TEMP
        	    focus.sh $wid
+            exit
             ;;
     esac
 done
