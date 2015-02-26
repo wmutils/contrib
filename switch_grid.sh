@@ -12,19 +12,20 @@ SW=$(wattr w $ROOT)
 SH=$(wattr h $ROOT)
 PFW=$(pfw)
 TEMP=$(mktemp) && wattr xywhi $(lsw) > $TEMP
-BW=2
+BW=${BW:-4} # exactly the width of your borders
 
 # figure out the dimensions of the windows and locations
 W=$(( SW / $(wc -l < $TEMP) ))
-H=$SH
+H=$(( SH - BW * 2 ))
 X=0
 Y=0
 
 # loop through them and make a grid or something similar
+# TODO: make an actual grid instead of just putting all the windows together
+#       horizontally
 while read line; do
     ID=$(echo $line | cut -d " " -f 5)
-    # TODO: fix this simple math so that all the spaces are exactly the same
-    wtp $((X + BW * 2)) $((Y + BW * 2)) $((W - BW * 6)) $((H - BW * 6)) $ID
+    wtp $((X)) $((Y)) $((W - BW * 2)) $((H)) $ID
     X=$((X + W))
 done < $TEMP
 
