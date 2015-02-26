@@ -51,26 +51,16 @@ while read line; do
 done < $TEMP
 
 # listen to wew for our desired event
-# TODO: currently listens for ENTER_WINDOW, should listen for KEY_PRESS/RELEASE
-wew -m 16 | while IFS=: read ev wid; do
+wew | while IFS=: read ev wid; do
     case $ev in
-        22)
+        4)
             while read line; do
                 wtp $line
             done < $TEMP
             focus.sh $wid
             exit
             ;;
-        *)
-            while read line; do
-                wtp $line
-            done < $TEMP
-            focus.sh $(pfw)
-            exit
-            ;;
     esac
-    # TODO: if the currently focused window is clicked just put everything back
-    #       together
 done
 
 # cleanup
