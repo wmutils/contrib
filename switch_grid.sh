@@ -9,7 +9,7 @@
 # depends on: wew focus.sh
 
 TEMP=$(mktemp) && wattr xywhi $(lsw) > $TEMP
-NB=$(wc -l < $TEMP) # NB as in NumBer
+NB=$(wc -l < $TEMP) # NB as in NumBer of windows
 
 # just safety
 if [ $NB -eq 1 ]; then
@@ -80,15 +80,12 @@ done
 
 # listen to wew for our desired event
 wew | while IFS=: read ev wid; do
-    case $ev in
-        4)
-            while read line; do
-                wtp $line
-            done < $TEMP
-            focus.sh $wid
-            exit
-            ;;
-    esac
+    if [ $ev -eq 4 ]; then
+        while read line; do
+            wtp $line
+        done < $TEMP
+        focus.sh $wid
+    fi
 done
 
 # cleanup
