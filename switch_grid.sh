@@ -85,7 +85,7 @@ wew | while IFS=: read ev wid; do
             wtp $line
         done < $TEMP
         focus.sh $wid
-        break
+        killall wew
     fi
 done
 
