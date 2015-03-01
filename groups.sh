@@ -32,8 +32,12 @@ fi
 
 # sets WID ($1) given to it to the group given to it ($2)
 set_group() {
-    # read through $FSDIR/group.* for the WID given to it
-        # once found delete it from that file and insert it in the new group
+    # delete $1 (WID) from all the group files
+    # TODO: make POSIX compatible, -i is a GNU-ism
+    sed -i "/$1/d" $FSDIR/group.*
+
+    # insert $1 (WID) into new group ($2)
+    echo $1 >> $FSDIR/group.$2
 }
 
 # shows (maps) all the windows in group ($1) given to it
