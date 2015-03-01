@@ -21,16 +21,6 @@ test $# -eq 0 && usage
 # cleaned up after X stops running
 FSDIR=${FSDIR:-/tmp/groups.sh}
 
-# groups dir doesn't exist
-if [ ! -d $FSDIR ]; then
-    # make dir to keep track of our stuff
-    mkdir -p $FSDIR
-    # file 'active' has a line for each visible (mapped) group
-    echo 'default' > $FSDIR/active
-    # group.* is the file that keeps track of which window is in which group
-    lsw > $FSDIR/group.default
-fi
-
 # define our functions
 
 # assings WID ($1) to the group ($2)
@@ -51,6 +41,7 @@ map_group() {
         exit 1
     fi
 
+    # loop through group and map windows
     while read line; do
         mapw -m $line
     done < $FSDIR/group.$1
@@ -64,12 +55,19 @@ unmap_group() {
         exit 1
     fi
 
+    # loop through group and unmap windows
     while read line; do
         mapw -u $line
     done < $FSDIR/group.$1
 }
 
 # argument logic
+
+# groups dir doesn't exist
+if [ ! -d $FSDIR ]; then
+    # make dir to keep track of our stuff
+    mkdir -p $FSDIR
+fi
 
 while getopts "hs:m:u:" opt; do
     case $opt in
