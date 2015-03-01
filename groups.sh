@@ -22,7 +22,7 @@ FSDIR=${FSDIR:-/tmp/groups.sh}
 if [ ! -d $FSDIR ]; then
     # make dir to keep track of our stuff
     mkdir -p $FSDIR
-    # file 'active' has a line for each visible group
+    # file 'active' has a line for each visible (mapped) group
     echo 'default' > $FSDIR/active
     # group.* is the file that keeps track of which window is in which group
     lsw > $FSDIR/group.default
@@ -30,18 +30,36 @@ fi
 
 # define our functions
 
-# sets wid ($1) given to it to the group given to it ($2)
+# sets WID ($1) given to it to the group given to it ($2)
 set_group() {
+    # read through $FSDIR/group.* for the WID given to it
+        # once found delete it from that file and insert it in the new group
 }
 
-# shows all the windows in group ($1) given to it
+# shows (maps) all the windows in group ($1) given to it
 map_group() {
-    # mapw -m WID
+    # safety
+    if [ ! -f $FSDIR/group.$1 ]; then
+        echo "Group doesn't exist"
+        exit 1
+    fi
+
+    while read line; do
+        mapw -m $line
+    done < $FSDIR/group.$1
 }
 
-# hides all the windows in group ($1) given to it
+# hides (unmaps) all the windows in group ($1) given to it
 unmap_group() {
-    # mapw -u WID
+    # safety
+    if [ ! -f $FSDIR/group.$1 ]; then
+        echo "Group doesn't exist"
+        exit 1
+    fi
+
+    while read line; do
+        mapw -u $line
+    done < $FSDIR/group.$1
 }
 
 # argument logic with getopts or whatever
