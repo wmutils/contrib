@@ -75,13 +75,16 @@ while getopts "hs:m:u:" opt; do
             usage
             ;;
         s)
-            set_group $OPTARG \$$OPTIND # cool little trick here ;)
+            set_group $OPTARG $(eval echo "\$$OPTIND")
+            break
             ;;
         m)
             map_group $OPTARG
+            break
             ;;
         u)
             unmap_group $OPTARG
+            break
             ;;
     esac
 done
