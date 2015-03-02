@@ -6,7 +6,7 @@ usage() {
     cat << EOF
 usage: $(basename $0) [-h] [-k wid] [-s wid group] [-t group] [-m group] [-u group]
        -h shows this help
-       -c clean wid from group files and kill
+       -k clean wid from group files and kill
        -s sets WID's group
        -t toggle group visibility state
        -m maps (shows) group
@@ -29,8 +29,6 @@ FSDIR=${FSDIR:-/tmp/groups.sh}
 clean_wid() {
     # TODO: make POSIX compatible, -i is a GNU-ism
     sed -i "/$1/d" $FSDIR/group.*
-
-    killw $1
 }
 
 # cleans group ($1) from (in)active files
@@ -132,6 +130,7 @@ while getopts "hk:s:t:m:u:" opt; do
             ;;
         k)
             clean_wid $OPTARG
+            killw $OPTARG
             break
             ;;
         s)
