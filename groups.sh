@@ -4,9 +4,9 @@
 
 usage() {
     cat << EOF
-usage: $(basename $0) [-h] [-c wid] [-s wid group] [-t group] [-m group] [-u group]
+usage: $(basename $0) [-h] [-k wid] [-s wid group] [-t group] [-m group] [-u group]
        -h shows this help
-       -c remove WID from group files
+       -c clean wid from group files and kill
        -s sets WID's group
        -t toggle group visibility state
        -m maps (shows) group
@@ -25,12 +25,15 @@ FSDIR=${FSDIR:-/tmp/groups.sh}
 
 # define our functions
 
-# delete WID from all the group files
+# clean WID ($1) from group files and kill WID
 clean_wid() {
     # TODO: make POSIX compatible, -i is a GNU-ism
     sed -i "/$1/d" $FSDIR/group.*
+
+    killw $1
 }
 
+# cleans group ($1) from (in)active files
 clean_status() {
     # TODO: make POSIX compatible, -i is a GNU-ism
     sed -i "/$1/d" $FSDIR/active
@@ -108,7 +111,7 @@ toggle_group() {
 # argument logic
 
 # getopts yo
-while getopts "hc:s:t:m:u:" opt; do
+while getopts "hk:s:t:m:u:" opt; do
     # groups dir doesn't exist
     if [ ! -d $FSDIR ]; then
         # make dir to keep track of our stuff
@@ -127,7 +130,7 @@ while getopts "hc:s:t:m:u:" opt; do
         h)
             usage
             ;;
-        c)
+        k)
             clean_wid $OPTARG
             break
             ;;
