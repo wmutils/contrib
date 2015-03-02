@@ -23,11 +23,15 @@ FSDIR=${FSDIR:-/tmp/groups.sh}
 
 # define our functions
 
-# assings WID ($1) to the group ($2)
-set_group() {
-    # delete WID from all the group files
+# delete WID from all the group files
+clean_wid() {
     # TODO: make POSIX compatible, -i is a GNU-ism
     sed -i "/$1/d" $FSDIR/group.*
+}
+
+# assings WID ($1) to the group ($2)
+set_group() {
+    clean_wid $1
 
     # insert WID into new group
     echo $1 >> $FSDIR/group.$2
@@ -69,10 +73,15 @@ if [ ! -d $FSDIR ]; then
     mkdir -p $FSDIR
 fi
 
-while getopts "hs:m:u:" opt; do
+# getopts yo
+while getopts "hc:s:m:u:" opt; do
     case $opt in
         h)
             usage
+            ;;
+        c)
+            clean_wid $OPTARG
+            break
             ;;
         s)
             set_group $OPTARG $(eval echo "\$$OPTIND")
