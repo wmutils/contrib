@@ -25,7 +25,7 @@ FSDIR=${FSDIR:-/tmp/groups.sh}
 
 # define our functions
 
-# clean WID ($1) from group files and kill WID
+# clean WID ($1) from group files
 clean_wid() {
     # TODO: make POSIX compatible, -i is a GNU-ism
     sed -i "/$1/d" $FSDIR/group.*
@@ -38,20 +38,29 @@ clean_status() {
     sed -i "/$1/d" $FSDIR/inactive
 }
 
-# assings WID ($1) to the group ($2)
+# assigns WID ($1) to the group ($2)
 set_group() {
+    # make sure we've no duplicates
     clean_wid $1
 
     # insert WID into new group
     echo $1 >> $FSDIR/group.$2
 
-    # clean statuses
-    clean_status $2
-    # add to active
+    # if we can't find the group add it to groups and make it active
+    grep -q $2 < $FSDIR/all || \
+    echo $2 >> $FSDIR/all &&
     echo $2 >> $FSDIR/active
+
+    # map WID if group is active
+    grep -q $2 < $FSDIR/active && \
+    mapw -m $1
+
+    # unmap WID if group is inactive
+    grep -q $2 < $FSDIR/inactive && \
+    mapw -u $1
 }
 
-# shows (maps) all the windows in group ($1)
+# shows all the windows in group ($1)
 map_group() {
     # safety
     if [ ! -f $FSDIR/group.$1 ]; then
@@ -70,7 +79,7 @@ map_group() {
     done < $FSDIR/group.$1
 }
 
-# hides (unmaps) all the windows in group ($1)
+# hides all the windows in group ($1)
 unmap_group() {
     # safety
     if [ ! -f $FSDIR/group.$1 ]; then
@@ -91,6 +100,11 @@ unmap_group() {
 
 # toggles visibility state of all the windows in group ($1)
 toggle_group() {
+    # if we can't find the group, exit
+    grep -q $1 < $FSDIR/all || \
+    echo "Group doesn't exist" &&
+    exit 1
+
     # search through active groups first
     grep -q $1 < $FSDIR/active && \
     unmap_group $1 && \
@@ -100,10 +114,6 @@ toggle_group() {
     grep -q $1 < $FSDIR/inactive && \
     map_group $1 && \
     return
-
-    # if we're still here it means it couldn't find it in either
-    # in which case we'll map it by default
-    map_group $1
 }
 
 # argument logic
@@ -122,6 +132,9 @@ while getopts "hk:s:t:m:u:" opt; do
     fi
     if [ ! -f $FSDIR/inactive ]; then
         touch $FSDIR/inactive
+    fi
+    if [ ! -f $FSDIR/all ]; then
+        touch $FSDIR/all
     fi
 
     case $opt in
