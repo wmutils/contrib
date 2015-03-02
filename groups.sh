@@ -4,9 +4,11 @@
 
 usage() {
     cat << EOF
-usage: $(basename $0) [-h] [-s wid group] [-m group] [-u group]
-       -h shows this help, you can also not provide args
+usage: $(basename $0) [-h] [-c wid] [-s wid group] [-t group] [-m group] [-u group]
+       -h shows this help
+       -c remove WID from group files
        -s sets WID's group
+       -t toggle group visibility state
        -m maps (shows) group
        -u unmaps (hides) group
 EOF
