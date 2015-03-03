@@ -116,6 +116,31 @@ toggle_group() {
     return
 }
 
+# cleans up and kills WID ($1)
+kill_window() {
+    # remove WID from records
+    clean_wid $1
+
+    # kill window
+    killw $1
+
+    # remove group and references to it if it's empty
+    for file in $FSDIR/group.*; do
+        # is the file (group) empty?
+        if [ ! -s $file ]; then
+            # get the name of the group
+            group=${file##*.}
+            # delete group from 'all' file
+            # TODO: make POSIX compatible, -i is a GNU-ism
+            sed -i "/$group/d" $FSDIR/all
+            # clean groups from (in)active
+            clean_status $group
+            # remove group file
+            rm $file
+        fi
+    done
+}
+
 # argument logic
 
 # getopts yo
@@ -142,8 +167,7 @@ while getopts "hk:s:t:m:u:" opt; do
             usage
             ;;
         k)
-            clean_wid $OPTARG
-            killw $OPTARG
+            kill_window $OPTARG
             break
             ;;
         s)
