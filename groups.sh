@@ -4,9 +4,8 @@
 
 usage() {
     cat << EOF
-usage: $(basename $0) [-h] [-k wid] [-s wid group] [-t group] [-m group] [-u group]
+usage: $(basename $0) [-h] [-s wid group] [-t group] [-m group] [-u group]
        -h shows this help
-       -k clean wid from group files and kill
        -s sets WID's group
        -t toggle group visibility state
        -m maps (shows) group
@@ -38,6 +37,44 @@ clean_status() {
     sed -i "/$1/d" $FSDIR/inactive
 }
 
+# shows all the windows in group ($1)
+map_group() {
+    # safety
+    if [ ! -f $FSDIR/group.$1 ] || [ ! -s $FSDIR/group.$1 ]; then
+        echo "Group doesn't exist"
+        exit 1
+    fi
+
+    # clean statuses
+    clean_status $1
+    # add to active
+    echo $1 >> $FSDIR/active
+
+    # loop through group and map windows
+    while read line; do
+        mapw -m $line
+    done < $FSDIR/group.$1
+}
+
+# hides all the windows in group ($1)
+unmap_group() {
+    # safety
+    if [ ! -f $FSDIR/group.$1 ] || [ ! -s $FSDIR/group.$1 ]; then
+        echo "Group doesn't exist"
+        exit 1
+    fi
+
+    # clean statuses
+    clean_status $1
+    # add to inactive
+    echo $1 >> $FSDIR/inactive
+
+    # loop through group and unmap windows
+    while read line; do
+        mapw -u $line
+    done < $FSDIR/group.$1
+}
+
 # assigns WID ($1) to the group ($2)
 set_group() {
     # make sure we've no duplicates
@@ -60,44 +97,6 @@ set_group() {
     mapw -u $1
 }
 
-# shows all the windows in group ($1)
-map_group() {
-    # safety
-    if [ ! -f $FSDIR/group.$1 ]; then
-        echo "Group doesn't exist"
-        exit 1
-    fi
-
-    # clean statuses
-    clean_status $1
-    # add to active
-    echo $1 >> $FSDIR/active
-
-    # loop through group and map windows
-    while read line; do
-        mapw -m $line
-    done < $FSDIR/group.$1
-}
-
-# hides all the windows in group ($1)
-unmap_group() {
-    # safety
-    if [ ! -f $FSDIR/group.$1 ]; then
-        echo "Group doesn't exist"
-        exit 1
-    fi
-
-    # clean statuses
-    clean_status $1
-    # add to inactive
-    echo $1 >> $FSDIR/inactive
-
-    # loop through group and unmap windows
-    while read line; do
-        mapw -u $line
-    done < $FSDIR/group.$1
-}
-
 # toggles visibility state of all the windows in group ($1)
 toggle_group() {
     # if we can't find the group, exit
@@ -115,31 +114,6 @@ toggle_group() {
     grep -q $1 < $FSDIR/inactive && \
     map_group $1 && \
     return
-}
-
-# cleans up and kills WID ($1)
-kill_window() {
-    # remove WID from records
-    clean_wid $1
-
-    # kill window
-    killw $1
-
-    # remove group and references to it if it's empty
-    for file in $FSDIR/group.*; do
-        # is the file (group) empty?
-        if [ ! -s $file ]; then
-            # get the name of the group
-            group=${file##*.}
-            # delete group from 'all' file
-            # TODO: make POSIX compatible, -i is a GNU-ism
-            sed -i "/$group/d" $FSDIR/all
-            # clean groups from (in)active
-            clean_status $group
-            # remove group file
-            rm $file
-        fi
-    done
 }
 
 # actual run logic (including arguments and such)
@@ -162,14 +136,10 @@ if [ ! -f $FSDIR/all ]; then
 fi
 
 # getopts yo
-while getopts "hk:s:t:m:u:" opt; do
+while getopts "hs:t:m:u:" opt; do
     case $opt in
         h)
             usage
-            ;;
-        k)
-            kill_window $OPTARG
-            break
             ;;
         s)
             set_group $OPTARG $(eval echo "\$$OPTIND")
