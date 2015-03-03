@@ -101,9 +101,10 @@ unmap_group() {
 # toggles visibility state of all the windows in group ($1)
 toggle_group() {
     # if we can't find the group, exit
-    grep -q $1 < $FSDIR/all || \
-    echo "Group doesn't exist" &&
-    exit 1
+    if ! grep -q $1 < $FSDIR/all; then
+        echo "Group doesn't exist"
+        return
+    fi
 
     # search through active groups first
     grep -q $1 < $FSDIR/active && \
@@ -141,27 +142,27 @@ kill_window() {
     done
 }
 
-# argument logic
+# actual run logic (including arguments and such)
+
+# groups dir doesn't exist
+if [ ! -d $FSDIR ]; then
+    # make dir to keep track of our stuff
+    mkdir -p $FSDIR
+fi
+
+# TODO: optimize this
+if [ ! -f $FSDIR/active ]; then
+    touch $FSDIR/active
+fi
+if [ ! -f $FSDIR/inactive ]; then
+    touch $FSDIR/inactive
+fi
+if [ ! -f $FSDIR/all ]; then
+    touch $FSDIR/all
+fi
 
 # getopts yo
 while getopts "hk:s:t:m:u:" opt; do
-    # groups dir doesn't exist
-    if [ ! -d $FSDIR ]; then
-        # make dir to keep track of our stuff
-        mkdir -p $FSDIR
-    fi
-
-    # TODO: optimize this
-    if [ ! -f $FSDIR/active ]; then
-        touch $FSDIR/active
-    fi
-    if [ ! -f $FSDIR/inactive ]; then
-        touch $FSDIR/inactive
-    fi
-    if [ ! -f $FSDIR/all ]; then
-        touch $FSDIR/all
-    fi
-
     case $opt in
         h)
             usage
