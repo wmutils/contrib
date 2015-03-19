@@ -1,6 +1,7 @@
 #!/bin/sh
 #
 # Copyright (c) 2015 Greduan <me@greduan.com>, licensed under the WTFPL
+# Adds group-like capabilities, sorta like those you find in CWM and such WMs
 
 usage() {
     cat << EOF
