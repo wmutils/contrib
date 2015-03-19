@@ -4,8 +4,9 @@
 
 usage() {
     cat << EOF
-usage: $(basename $0) [-h] [-s wid group] [-t group] [-m group] [-u group]
+usage: $(basename $0) [-h] [-c wid] [-s wid group] [-t group] [-m group] [-u group]
        -h shows this help
+       -c cleans WID from group files (and makes it visible)
        -s sets WID's group
        -t toggle group visibility state
        -m maps (shows) group
@@ -39,12 +40,6 @@ clean_status() {
 
 # shows all the windows in group ($1)
 map_group() {
-    # safety
-    if [ ! -f $FSDIR/group.$1 ] || [ ! -s $FSDIR/group.$1 ]; then
-        echo "Group doesn't exist"
-        exit 1
-    fi
-
     # clean statuses
     clean_status $1
     # add to active
@@ -136,10 +131,15 @@ if [ ! -f $FSDIR/all ]; then
 fi
 
 # getopts yo
-while getopts "hs:t:m:u:" opt; do
+while getopts "hc:s:t:m:u:" opt; do
     case $opt in
         h)
             usage
+            ;;
+        c)
+            clean_wid $OPTARG
+            mapw -m $OPTARG
+            break
             ;;
         s)
             set_group $OPTARG $(eval echo "\$$OPTIND")
