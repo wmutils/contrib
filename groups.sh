@@ -114,9 +114,8 @@ toggle_group() {
 
 # actual run logic (including arguments and such)
 
-# groups dir doesn't exist
+# check $FSDIR exists
 if [ ! -d $FSDIR ]; then
-    # make dir to keep track of our stuff
     mkdir -p $FSDIR
 fi
 
@@ -130,6 +129,18 @@ fi
 if [ ! -f $FSDIR/all ]; then
     touch $FSDIR/all
 fi
+
+# clean WIDs that don't exist
+cat $FSDIR/group.* | while read wid; do
+    wattr $wid || clean_wid $wid
+done
+# clean group files that are empty
+for group in $FSDIR/group.*; do
+    # is the group empty?
+    if [ ! -s $group ]; then
+        rm $group
+    done
+done
 
 # getopts yo
 while getopts "hc:s:t:m:u:" opt; do
