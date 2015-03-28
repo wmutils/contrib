@@ -11,6 +11,7 @@ usage: $(basename $0) [-h] [-c wid] [-s wid group] [-t group] [-m group] [-u gro
        -s sets WID's group
        -t toggle group visibility state
        -m maps (shows) group
+       -M maps group and unmaps the others
        -u unmaps (hides) group
 EOF
 
@@ -135,15 +136,15 @@ cat $FSDIR/group.* | while read wid; do
     wattr $wid || clean_wid $wid
 done
 # clean group files that are empty
-for group in $FSDIR/group.*; do
+for file in $FSDIR/group.*; do
     # is the group empty?
-    if [ ! -s $group ]; then
-        rm $group
-    done
+    if [ ! -s $file ]; then
+        rm $file
+    fi
 done
 
 # getopts yo
-while getopts "hc:s:t:m:u:" opt; do
+while getopts "hc:s:t:m:M:u:" opt; do
     case $opt in
         h)
             usage
@@ -162,6 +163,14 @@ while getopts "hc:s:t:m:u:" opt; do
             break
             ;;
         m)
+            map_group $OPTARG
+            break
+            ;;
+        M)
+            for file in $FSDIR/group.*; do
+                group=${file##*.}
+                unmap_group $group
+            done
             map_group $OPTARG
             break
             ;;
