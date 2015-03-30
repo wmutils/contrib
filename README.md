@@ -51,13 +51,16 @@ Depends on `wew(1)` (opt repo)  and `focus.sh` (contrib repo)
 ### groups.sh
 Adds group-like capabilities, sorta like those you find in CWM and such WMs.
 
-    usage: groups.sh [-h] [-c wid] [-s wid group] [-t group] [-m group] [-u group]
+    usage: groups.sh [-h] [-c wid] [-s wid group] [-t group] [-m group] [-M group]
+                     [-u group] [-U]
            -h shows this help
            -c cleans WID from group files (and makes it visible)
            -s sets WID's group
            -t toggle group visibility state
            -m maps (shows) group
+           -M maps group and unmaps all other groups
            -u unmaps (hides) group
+           -U unmaps all the groups
 
 
 *... to be continued*

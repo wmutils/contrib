@@ -5,14 +5,16 @@
 
 usage() {
     cat << EOF
-usage: $(basename $0) [-h] [-c wid] [-s wid group] [-t group] [-m group] [-u group]
+usage: $(basename $0) [-h] [-c wid] [-s wid group] [-t group] [-m group] [-M group]
+                 [-u group] [-U]
        -h shows this help
        -c cleans WID from group files (and makes it visible)
        -s sets WID's group
        -t toggle group visibility state
        -m maps (shows) group
-       -M maps group and unmaps the others
+       -M maps group and unmaps all other groups
        -u unmaps (hides) group
+       -U unmaps all the groups
 EOF
 
     exit 1
@@ -144,7 +146,7 @@ for file in $FSDIR/group.*; do
 done
 
 # getopts yo
-while getopts "hc:s:t:m:M:u:" opt; do
+while getopts "hc:s:t:m:M:u:U:" opt; do
     case $opt in
         h)
             usage
@@ -176,6 +178,13 @@ while getopts "hc:s:t:m:M:u:" opt; do
             ;;
         u)
             unmap_group $OPTARG
+            break
+            ;;
+        U)
+            for file in $FSDIR/group.*; do
+                group=${file##*.}
+                unmap_group $group
+            done
             break
             ;;
     esac
