@@ -5,8 +5,7 @@
 
 usage() {
     cat << EOF
-usage: $(basename $0) [-h] [-c wid] [-s wid group] [-t group] [-m group] [-M group]
-                 [-u group] [-U]
+usage: $(basename $0) [-h] [-c wid] [-s wid group] [-tmMuU group]
        -h shows this help
        -c cleans WID from group files (and makes it visible)
        -s sets WID's group
@@ -134,19 +133,19 @@ if [ ! -f $FSDIR/all ]; then
 fi
 
 # clean WIDs that don't exist
-cat $FSDIR/group.* | while read wid; do
+cat $FSDIR/group.* 2>/dev/null | while read wid; do
     wattr $wid || clean_wid $wid
 done
 # clean group files that are empty
 for file in $FSDIR/group.*; do
     # is the group empty?
     if [ ! -s $file ]; then
-        rm $file
+        rm -f $file
     fi
 done
 
 # getopts yo
-while getopts "hc:s:t:m:M:u:U:" opt; do
+while getopts "hc:s:t:m:M:u:U" opt; do
     case $opt in
         h)
             usage
