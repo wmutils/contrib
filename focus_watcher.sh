@@ -6,7 +6,7 @@
 
 wew -a | while IFS=: read ev wid; do
     case $1 in
-        # XCB_CREATE_NOTIFY
-        16) focus.sh $wid ;;
+        # occurs on mapping requests
+        19) focus.sh $wid ;;
     esac
 done
