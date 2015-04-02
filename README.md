@@ -48,4 +48,18 @@ Depends on `wew(1)` (opt repo)  and `focus.sh` (contrib repo)
 
     usage: switch_grid.sh
 
+### groups.sh
+Adds group-like capabilities, sorta like those you find in CWM and such WMs.
+
+    usage: groups.sh [-h] [-c wid] [-s wid group] [-tmMuU group]
+           -h shows this help
+           -c cleans WID from group files (and makes it visible)
+           -s sets WID's group
+           -t toggle group visibility state
+           -m maps (shows) group
+           -M maps group and unmaps all other groups
+           -u unmaps (hides) group
+           -U unmaps all the groups
+
+
 *... to be continued*
