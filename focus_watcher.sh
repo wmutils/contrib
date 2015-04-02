@@ -5,7 +5,7 @@
 # depends on: wew focus.sh
 
 wew -a | while IFS=: read ev wid; do
-    case $1 in
+    case $ev in
         # occurs on mapping requests
         19) focus.sh $wid ;;
     esac

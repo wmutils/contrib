@@ -24,6 +24,7 @@ set borders accordingly. Uses `$BW`, `$ACTIVE` and `$INACTIVE` from environment.
 
 ### focus\_watcher.sh
 Focus a new window (using focus.sh) upon its creation.
+
 Depends on `wew(1)` (opt repo)  and `focus.sh` (contrib repo)
 
     usage: focus_watcher.sh
@@ -37,6 +38,28 @@ environment.
 ### closest.sh
 Focus the closest window in a specific direction.
 
-    usage closest.sh <direction>
+    usage: closest.sh <direction>
+
+### switch\_grid.sh
+A simpler version of OS X Mission Control feature, or GNOME Shell's Overview
+feature.
+
+Depends on `wew(1)` (opt repo)  and `focus.sh` (contrib repo)
+
+    usage: switch_grid.sh
+
+### groups.sh
+Adds group-like capabilities, sorta like those you find in CWM and such WMs.
+
+    usage: groups.sh [-h] [-c wid] [-s wid group] [-tmMuU group]
+           -h shows this help
+           -c cleans WID from group files (and makes it visible)
+           -s sets WID's group
+           -t toggle group visibility state
+           -m maps (shows) group
+           -M maps group and unmaps all other groups
+           -u unmaps (hides) group
+           -U unmaps all the groups
+
 
 *... to be continued*
