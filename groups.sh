@@ -5,9 +5,10 @@
 
 usage() {
     cat << EOF
-usage: $(basename $0) [-h] [-c wid] [-s wid group] [-tmMuU group]
+usage: $(basename $0) [-hCU] [-c wid] [-s wid group] [-tmMu group]
        -h shows this help
        -c cleans WID from group files (and makes it visible)
+       -C runs cleanup routine
        -s sets WID's group
        -t toggle group visibility state
        -m maps (shows) group
@@ -83,8 +84,10 @@ unmap_group() {
 set_group() {
     # make sure we've no duplicates
     clean_wid $1
+    clean_status $2
 
-    # insert WID into new group
+    # insert WID into new group if not already there
+    grep -q $1 < $FSDIR/group.$2 || \
     echo $1 >> $FSDIR/group.$2
 
     # if we can't find the group add it to groups and make it active
@@ -120,6 +123,35 @@ toggle_group() {
     return
 }
 
+# removes all the unexistent WIDs from groups
+# removes all group files that don't exist
+# removes from 'all' file all groups that don't exist
+cleanup_everything() {
+    # clean WIDs that don't exist
+    # using `cat` instead of `<` because error suppression
+    cat $FSDIR/group.* 2>/dev/null | while read wid; do
+        wattr $wid || \
+        clean_wid $wid
+    done
+
+    # clean group files that are empty
+    for file in $FSDIR/group.*; do
+        # is the group empty?
+        if [ ! -s $file ]; then
+            rm -f $file
+        fi
+    done
+
+    # remove groups that don't exist from 'all'
+    while read line; do
+        if [ ! -f $FSDIR/group.$line ]; then
+            # TODO: make POSIX compatible, -i is a GNU-ism
+            sed -i "/$line/d" $FSDIR/all
+            clean_status $line
+        fi
+    done < $FSDIR/all
+}
+
 # actual run logic (including arguments and such)
 
 # check $FSDIR exists
@@ -130,29 +162,10 @@ test -f $FSDIR/active || :> $FSDIR/active
 test -f $FSDIR/inactive || :> $FSDIR/inactive
 test -f $FSDIR/all || :> $FSDIR/all
 
-# clean WIDs that don't exist
-# using `cat` instead of `<` because error suppression
-cat $FSDIR/group.* 2>/dev/null | while read wid; do
-    wattr $wid || clean_wid $wid
-done
-
-# clean group files that are empty
-for file in $FSDIR/group.*; do
-    # is the group empty?
-    if [ ! -s $file ]; then
-        rm -f $file
-    fi
-done
-
-# remove groups that don't exist
-while read line; do
-    # TODO: make POSIX compatible, -i is a GNU-ism
-    test -f $FSDIR/group.$line || \
-    sed -i "/$line/d" $FSDIR/active
-done < $FSDIR/all
+cleanup_everything
 
 # getopts yo
-while getopts "hc:s:t:m:M:u:U" opt; do
+while getopts "hc:Cs:t:m:M:u:U" opt; do
     case $opt in
         h)
             usage
@@ -160,6 +173,10 @@ while getopts "hc:s:t:m:M:u:U" opt; do
         c)
             clean_wid $OPTARG
             mapw -m $OPTARG
+            break
+            ;;
+        C)
+            cleanup_everything
             break
             ;;
         s)
