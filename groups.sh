@@ -43,6 +43,12 @@ clean_status() {
 
 # shows all the windows in group ($1)
 map_group() {
+    # safety
+    if ! grep -q $1 < $FSDIR/all; then
+        echo "Group doesn't exist"
+        exit 1
+    fi
+
     # clean statuses
     clean_status $1
     # add to active
@@ -57,7 +63,7 @@ map_group() {
 # hides all the windows in group ($1)
 unmap_group() {
     # safety
-    if [ ! -f $FSDIR/group.$1 ] || [ ! -s $FSDIR/group.$1 ]; then
+    if ! grep -q $1 < $FSDIR/all; then
         echo "Group doesn't exist"
         exit 1
     fi
@@ -83,7 +89,7 @@ set_group() {
 
     # if we can't find the group add it to groups and make it active
     grep -q $2 < $FSDIR/all || \
-    echo $2 >> $FSDIR/all &&
+    echo $2 >> $FSDIR/all && \
     echo $2 >> $FSDIR/active
 
     # map WID if group is active
@@ -97,7 +103,7 @@ set_group() {
 
 # toggles visibility state of all the windows in group ($1)
 toggle_group() {
-    # if we can't find the group, exit
+    # safety
     if ! grep -q $1 < $FSDIR/all; then
         echo "Group doesn't exist"
         return
@@ -117,25 +123,19 @@ toggle_group() {
 # actual run logic (including arguments and such)
 
 # check $FSDIR exists
-if [ ! -d $FSDIR ]; then
-    mkdir -p $FSDIR
-fi
+test -d $FSDIR || mkdir -p $FSDIR
 
-# TODO: optimize this
-if [ ! -f $FSDIR/active ]; then
-    touch $FSDIR/active
-fi
-if [ ! -f $FSDIR/inactive ]; then
-    touch $FSDIR/inactive
-fi
-if [ ! -f $FSDIR/all ]; then
-    touch $FSDIR/all
-fi
+# touch all the files
+test -f $FSDIR/active || :> $FSDIR/active
+test -f $FSDIR/inactive || :> $FSDIR/inactive
+test -f $FSDIR/all || :> $FSDIR/all
 
 # clean WIDs that don't exist
+# using `cat` instead of `<` because error suppression
 cat $FSDIR/group.* 2>/dev/null | while read wid; do
     wattr $wid || clean_wid $wid
 done
+
 # clean group files that are empty
 for file in $FSDIR/group.*; do
     # is the group empty?
@@ -143,6 +143,13 @@ for file in $FSDIR/group.*; do
         rm -f $file
     fi
 done
+
+# remove groups that don't exist
+while read line; do
+    # TODO: make POSIX compatible, -i is a GNU-ism
+    test -f $FSDIR/group.$line || \
+    sed -i "/$line/d" $FSDIR/active
+done < $FSDIR/all
 
 # getopts yo
 while getopts "hc:s:t:m:M:u:U" opt; do
