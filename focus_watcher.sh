@@ -7,6 +7,10 @@
 wew | while IFS=: read ev wid; do
     case $ev in
         # occurs on mapping requests
-        19) focus.sh $wid ;;
+        19)
+        ro=$(wattr o $wid)
+        if (( $ro == 1 )); then
+            focus.sh $wid
+        fi;;
     esac
 done
