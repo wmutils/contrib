@@ -79,7 +79,7 @@ done
 # END Z3BRA
 
 # listen to wew for our desired event
-wew | while IFS=: read ev wid; do
+wew -m 4 | while IFS=: read ev wid; do
     if [ $ev -eq 4 ]; then
         while read line; do
             wtp $line
