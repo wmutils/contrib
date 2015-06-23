@@ -1,5 +1,4 @@
 PREFIX = /usr
-MANPREFIX = $(PREFIX)/man
 
 CC      = cc
 LD      = $(CC)
