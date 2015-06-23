@@ -6,7 +6,6 @@ SRC =           \
 
 OBJ = $(SRC:.c=.o)
 BIN = $(SRC:.c=)
-MAN = $(SRC:.c=.1)
 
 .POSIX:
 .SUFFIXES: .1 .1.gz
@@ -28,14 +27,12 @@ $(OBJ): $(HDR) util.o
 install: $(BIN)
 	mkdir -p $(DESTDIR)$(PREFIX)/bin/
 	cp -f $(BIN) $(DESTDIR)$(PREFIX)/bin/
-	cd man; $(MAKE) install
 
 uninstall:
 	@echo "uninstalling binaries"
 	@for util in $(BIN); do \
 		rm -f $(DESTDIR)$(PREFIX)/bin/$$util; \
 	done
-	cd man; $(MAKE) uninstall
 
 clean :
 	rm -f $(OBJ) $(BIN) util.o
