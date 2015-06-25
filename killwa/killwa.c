@@ -28,7 +28,7 @@ xcb_atom_t xcb_atom_get(xcb_connection_t *conn, char *name)
 	xcb_intern_atom_reply_t *reply = xcb_intern_atom_reply(conn, cookie, NULL);
 
 	if (!reply)
-		return XCB_NONE;
+		return XCB_ATOM_STRING;
 
 	return reply->atom;
 }
