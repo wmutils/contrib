@@ -16,7 +16,7 @@ set_full () {
     local monitor=$1
     local window=$2
     wattr xywhi $window >$tempfile
-    wtp $(mg $monitor) $window
+    wtp $(geo_disp.sh $monitor) $window
     wtf $window
     chwb -s 0 $window
     chwso -r $window
@@ -31,13 +31,13 @@ unset_full () {
 
 display=$1
 windowid=$2
-tempfile="/tmp/fsm_data_$display"
+tempfile="/tmp/fs_data_$display"
 
 # All them checks.
 test -z "$1" && test -z "$2" && usage
 
 # check if display is valid
-lm | grep -q $display || usage
+ls_disp.sh | grep -q $display || usage
 
 # check if windowid is valid
 lsw | grep -q $windowid || usage
