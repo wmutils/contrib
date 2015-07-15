@@ -62,5 +62,26 @@ Adds group-like capabilities, sorta like those you find in CWM and such WMs.
            -u unmaps (hides) group
            -U unmaps all the groups
 
+## Multihead support
+
+### current_disp.sh
+Gives the current display when given coordinates or a window id.
+
+    usage: current_disp.sh [-c x y] [wid]
+
+### ls_disp.sh
+Lists all available displays.
+
+    usage: ls_disp.sh
+
+### geo_disp.sh
+Gives the geometry of the given display.
+
+    usage: geo_disp.sh <display>
+
+### fullscreen_disp.sh
+Full screens a window. Each display may have one fullscreen window. 
+
+    usage: fullscreen_disp.sh <display> <wid>
 
 *... to be continued*
