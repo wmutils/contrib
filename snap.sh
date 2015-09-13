@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# z3bra - 2015
+# kekler - 2015
 # snaps focued window to the left, right, top, or bottom edge
 
 exec 2>/dev/null
