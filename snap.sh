@@ -6,8 +6,8 @@
 exec 2>/dev/null
 
 # default values for gaps and master area
-TOP_PANEL=${PANEL:-50}
-GAP=${GAP:-10}
+TOP_PANEL=${PANEL:-20}
+GAP=${GAP:-5}
 
 # get current window id and its borderwidth
 PFW=$(pfw)
