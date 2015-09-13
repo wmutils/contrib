@@ -1,4 +1,8 @@
 #!/bin/sh
+#
+# wmutils/contrib>: snap.sh, 9/12/15 kekler 
+# snaps focued window to the left, right, top, or bottom edge
+
 exec 2>/dev/null
 
 # default values for gaps and master area
