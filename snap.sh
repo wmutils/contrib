@@ -37,10 +37,37 @@ snap_left()
     wtp $GAP $((GAP + TOP_PANEL)) $((SW/2 - 2*BW - GAP - GAP/2)) $((SH - 2*BW - 2*GAP)) $PFW
 }
 
+HSW=$((SW/2 - 2*BW - GAP - GAP/2))
+HSH=$((SH/2 - 2*BW - GAP - GAP/2))
+
+snap_tr()
+{
+    wtp $((SW - SW/2 + GAP/2)) $((GAP + TOP_PANEL)) $HSW $HSH $PFW
+}
+
+snap_br()
+{
+    wtp $((SW - SW/2 + GAP/2)) $((SH - SH/2 + GAP/2 + TOP_PANEL)) $HSW $HSH $PFW
+}
+
+snap_tl()
+{
+    wtp $GAP $((GAP + TOP_PANEL)) $HSW $HSH $PFW
+}
+
+snap_bl()
+{
+    wtp $GAP $((SH - SH/2 + GAP/2 + TOP_PANEL)) $HSW $HSH $PFW
+}
+
 case $1 in
     h|a|east|left)  snap_left ;;
     j|s|south|down) snap_down ;;
     k|w|north|up)   snap_up ;;
     l|d|west|right) snap_right ;;
+    tr|northeast)   snap_tr ;;
+    br|southeast)   snap_br ;;
+    tl|northwest)   snap_tl ;;
+    bl|southwest)   snap_bl ;;
 esac
 
