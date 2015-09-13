@@ -3,7 +3,10 @@
 # wmutils/contrib>: snap.sh, 9/12/15 kekler 
 # snaps focued window to the left, right, top, or bottom edge
 
-exec 2>/dev/null
+usage() {
+    echo "usage: $(basename $0) <direction>" >&2
+    exit 1
+}
 
 # default values for gaps and master area
 TOP_PANEL=${PANEL:-20}
