@@ -1,4 +1,8 @@
 #!/bin/sh
+#
+# z3bra - 2015
+# snaps focued window to the left, right, top, or bottom edge
+
 exec 2>/dev/null
 
 # default values for gaps and master area
