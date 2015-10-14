@@ -22,7 +22,12 @@ setborder() {
     wattr $2 || return
 
     # do not modify border of fullscreen windows
-    test "$(wattr xywh $2)" = "$(wattr xywh $ROOT)" && return
+    if [ -f $HOME/.fwin ]; then
+        wid=cat $HOME/.fwin | grep $2
+        if [ $wid = $2 ]; then
+            return
+        fi
+    fi
 
     case $1 in
         active)   chwb -s $BW -c $ACTIVE $2 ;;
