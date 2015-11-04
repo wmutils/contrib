@@ -48,6 +48,14 @@ Depends on `wew(1)` (opt repo)  and `focus.sh` (contrib repo)
 
     usage: switch_grid.sh
 
+### deletelock.sh
+Set a custom xprop variable which can be used to test if a window is able to
+be deleted or not when using killw in a custom script with `wew(1)`.
+
+Depends on xorg-xprop
+
+    usage: deletelock.sh <lock|unlock|toggle|status> <wid>
+
 ### groups.sh
 Adds group-like capabilities, sorta like those you find in CWM and such WMs.
 
