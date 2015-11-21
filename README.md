@@ -56,6 +56,14 @@ Depends on xorg-xprop
 
     usage: deletelock.sh <lock|unlock|toggle|status> <wid>
 
+### resolution.sh
+Find video's max resolution that is currently playing in mpv and resize window
+to match.
+
+Depends on xorg-xprop
+
+    usage: resolution.sh <wid>
+
 ### groups.sh
 Adds group-like capabilities, sorta like those you find in CWM and such WMs.
 
