@@ -24,8 +24,12 @@ setborder() {
     test "$(wattr xywh $2)" = "$(wattr xywh $ROOT)" && return
 
     case $1 in
-        active)   chwb -c $ACTIVE $2 ;;
-        inactive) chwb -c $INACTIVE $2 ;;
+        active)   chwb -c $ACTIVE $2
+                  if [ -n $BW ]; then chwb -s $BW $2; fi
+                  ;;
+        inactive) chwb -c $INACTIVE $2
+                  if [ -n $BW ]; then chwb -s $BW $2; fi
+                  ;;
     esac
 }
 
