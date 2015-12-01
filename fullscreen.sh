@@ -19,7 +19,7 @@ test -z "$1" && usage
 # this will unset the fullscreen state of any fullscreen window if there is one.
 # this way, there will only be one window in fullscreen at a time, and no window
 # will loose their previous geometry info
-test -f $FSFILE && wtp $(cat $FSFILE)
+test -f $FSFILE && wtp $(head -n1 $FSFILE) && chwb -s $(tail -n1 $FSFILE) 
 
 # if file exist and contain our window id, it means that out window is in
 # fullscreen mode
@@ -32,6 +32,7 @@ else
     # if not, then put the current window in fullscreen mode, after saving its
     # geometry and id to $FSFILE we also remove any border from this window.
     wattr xywhi $1 > $FSFILE
+    echo -e "$(cat $FSFILE)\n$(wattr b $(pfw)) $(pfw)" > $FSFILE
     wtp $(wattr xywh `lsw -r`) $1
     chwb -s 0 $1
 fi
