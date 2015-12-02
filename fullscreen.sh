@@ -33,6 +33,7 @@ else
     # geometry, border, and id to $FSFILE we also remove any border from this window.
     wattr xywhi $1 > $FSFILE
     echo -e "$(cat $FSFILE)\n$(wattr b $(pfw)) $(pfw)" > $FSFILE
+    
     wtp $(wattr xywh `lsw -r`) $1
     chwb -s 0 $1
 fi
