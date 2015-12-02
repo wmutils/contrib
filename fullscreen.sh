@@ -30,7 +30,7 @@ if test -f $FSFILE && grep -q $1 $FSFILE; then
 
 else
     # if not, then put the current window in fullscreen mode, after saving its
-    # geometry and id to $FSFILE we also remove any border from this window.
+    # geometry, border, and id to $FSFILE we also remove any border from this window.
     wattr xywhi $1 > $FSFILE
     echo -e "$(cat $FSFILE)\n$(wattr b $(pfw)) $(pfw)" > $FSFILE
     wtp $(wattr xywh `lsw -r`) $1
