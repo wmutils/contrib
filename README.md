@@ -58,9 +58,9 @@ Depends on xorg-xprop
 
 ### mouse.sh
 Toggle usage of mouse. When disabling the mouse, the pointer is sent to the
-bottom-right corner of the screen and when enabling the mouse, the point is
-sent to the middle of the active window. Can be sourced to use it's functions
-in your own scripts.
+bottom-right corner of the screen and when enabling the mouse, the pointer is
+sent to the middle of the active window. Can be sourced to use its own
+functions in your own scripts.
 
 Depends on xorg-xinput
 
