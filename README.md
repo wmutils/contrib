@@ -70,5 +70,26 @@ Adds group-like capabilities, sorta like those you find in CWM and such WMs.
            -u unmaps (hides) group
            -U unmaps all the groups
 
+### windows.sh
+Alternative groups script, with extra functionality to make groups more usable.
+
+    Usage: windows.sh [-a wid group] [-fc wid] [-shmtTuz group] [-rlhq]
+        -a | --add:    Add a wid to a group, or clean it if it already exists in given group.
+        -f | --find:   Outputs wid if it was not found in a group.
+        -c | --clean:  Clean wid from all groups.
+        -h | --hide:   Hide given group.
+        -s | --show:   Show given group.
+        -m | --map:    Show given group, but hide other active groups.
+        -z | --cycle:  Cycle through windows in the given group.
+        -t | --toggle: Toggle given group.
+        -T | --smart:  Cycle through given group, or toggle it if only one window exists in group.
+        -u | --unmap:  Unmap given group.
+        -r | --reset:  Reset all groups.
+        -l | --list:   List all groups.
+        -q | --quiet:  Suppress all textual output.
+        -h | --help:   Show this help.
+
+    I've left relevant focusing calls commented out, if you want this script to handle
+    focusing as well, try uncommenting the commands out to fit your preferences.
 
 *... to be continued*
