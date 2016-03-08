@@ -40,6 +40,14 @@ Focus the closest window in a specific direction.
 
     usage: closest.sh <direction>
 
+### underneath.sh
+Produce window id directely underneath cursor.
+
+Example sxhkd binding:
+
+    ~button1
+        focus.sh $(underneath.sh)
+
 ### switch\_grid.sh
 A simpler version of OS X Mission Control feature, or GNOME Shell's Overview
 feature.
@@ -69,6 +77,5 @@ Adds group-like capabilities, sorta like those you find in CWM and such WMs.
            -M maps group and unmaps all other groups
            -u unmaps (hides) group
            -U unmaps all the groups
-
 
 *... to be continued*
