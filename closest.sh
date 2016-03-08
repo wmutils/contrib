@@ -34,4 +34,5 @@ case $1 in
     j|s|south|down) focus.sh $(next_south) 2>/dev/null ;;
     k|w|north|up)   focus.sh $(next_north) 2>/dev/null ;;
     l|d|west|right) focus.sh $(next_west)  2>/dev/null ;;
+    *) usage ;;
 esac
