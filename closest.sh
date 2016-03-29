@@ -35,6 +35,6 @@ case $1 in
     k|w|north|up)   wid=$(next_north) ;;
     l|d|west|right) wid=$(next_west)  ;;
     *)              usage             ;;
-
-    test ! -z $wid && focus.sh "$wid"
 esac
+
+test ! -z "$wid" && focus.sh "$wid"
