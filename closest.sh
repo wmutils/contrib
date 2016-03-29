@@ -30,9 +30,11 @@ next_south() {
 
 # Use the specification of your choice: WASD, HJKL, ←↑↓→, west/north/south/east
 case $1 in
-    h|a|east|left)  focus.sh $(next_east)  2>/dev/null ;;
-    j|s|south|down) focus.sh $(next_south) 2>/dev/null ;;
-    k|w|north|up)   focus.sh $(next_north) 2>/dev/null ;;
-    l|d|west|right) focus.sh $(next_west)  2>/dev/null ;;
-    *) usage ;;
+    h|a|east|left)  wid=$(next_east)  ;;
+    j|s|south|down) wid=$(next_south) ;;
+    k|w|north|up)   wid=$(next_north) ;;
+    l|d|west|right) wid=$(next_west)  ;;
+    *)              usage             ;;
 esac
+
+test ! -z "$wid" && focus.sh "$wid"
