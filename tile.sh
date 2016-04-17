@@ -22,11 +22,11 @@ MAX=$(lsw|grep -v $PFW|wc -l)
 
 # calculate usable screen size (without borders and gaps)
 SW=$((SW - GAP - 2*BW))
-SH=$((SH - GAP - 2*BW - PANEL))
+SH=$((SH - GAP - PANEL))
 
 Y=$((0 + GAP + PANEL))
 # put current window in master area
-wtp $GAP $Y $((MASTER - GAP - 2*BW)) $((SH - GAP)) $PFW
+wtp $GAP $Y $((MASTER - GAP - 2*BW)) $((SH - GAP - 2*BW)) $PFW
 
 # and now, stack up all remaining windows on the right
 X=$((MASTER + GAP))
