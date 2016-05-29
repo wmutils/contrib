@@ -1,7 +1,8 @@
 #!/bin/sh
-#constructs and groups windows into workspaces to switch between using your favorite keybinder.
+#Groups windows into workspaces. Stores the current workspace index in /tmp/workspaces/curr by default.
 
 NUM_WS=9
+WSDIR='/tmp/workspaces'
 
 help() {
 	cat << EOF
@@ -17,18 +18,18 @@ EOF
 }
 #initializes us in workspace 0
 ws_init() {
-	mkdir -p /tmp/workspaces/
+	mkdir -p $WSDIR/
 	i = 0
 	while [ "$i" -le "$NUM_WS" ]; do
-		:> /tmp/workspaces/ws"$i"
+		:> $WSDIR/ws"$i"
 		i=$(expr $i + 1)
 	done
-	echo 0 > /tmp/workspaces/curr
+	echo 0 > $WSDIR/curr
 }
 #saves all of the workspaces 
 save_ws() {
-	curr=$(cat /tmp/workspaces/curr);
-	lsw > /tmp/workspaces/ws"$curr";
+	curr=$(cat $WSDIR/curr);
+	lsw > $WSDIR/ws"$curr";
 }
 move_to_ws() {
 	ws_num=$1;
@@ -38,12 +39,12 @@ move_to_ws() {
 	fi
 	save_ws;
 	mapw -u $(lsw)
-	mapw -m $(cat /tmp/workspaces/ws"$ws_num")
-	echo $ws_num > /tmp/workspaces/curr
+	mapw -m $(cat $WSDIR/ws"$ws_num")
+	echo $ws_num > $WSDIR/curr
 }
 next_ws() {
 	#get what ws we're currently in
-	curr=$(cat /tmp/workspaces/curr);
+	curr=$(cat $WSDIR/curr);
 	curr=$(expr $curr + 1);
 
 	#take care of loopback
@@ -55,7 +56,7 @@ next_ws() {
 }
 prev_ws() {
 	#get what ws we're currently in
-	curr=$(cat /tmp/workspaces/curr);
+	curr=$(cat $WSDIR/curr);
 	curr=$(expr $curr - 1);
 
 	#take care of loopback
@@ -67,9 +68,9 @@ prev_ws() {
 }
 move_focused_window() {
 	wid=$(pfw);
-	curr_ws=$(cat /tmp/workspaces/curr);
+	curr_ws=$(cat $WSDIR/curr);
 	if [ $wid != curr_ws ]; then
-		pfw >> /tmp/workspaces/ws"$1";
+		pfw >> $WSDIR/ws"$1";
 		mapw -u $wid;
 	fi
 }
