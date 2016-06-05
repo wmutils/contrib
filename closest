@@ -2,7 +2,7 @@
 #
 # z3bra - 2014 (c) wtfpl
 # find and focus the closest window in a specific direction
-# depends on: focus.sh
+# depends on: focus
 
 # get current window id
 CUR=$(pfw)
@@ -37,4 +37,4 @@ case $1 in
     *)              usage             ;;
 esac
 
-test ! -z "$wid" && focus.sh "$wid"
+test ! -z "$wid" && focus "$wid"
