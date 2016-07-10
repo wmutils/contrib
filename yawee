@@ -15,9 +15,10 @@ while IFS=: read ev wid; do
 		16) if lsw | grep -q "$wid" >/dev/null; then focus $wid; lsw >"$wn"; fi ;;
 
 		17|18) if [ $(lsw | wc -l) != '0' ] && grep "$wid" "$wn"; then
-			focus next;
+			focus $(lsw | head -1);
 			lsw >"$wn"
-		fi ;;
+		fi
+		;;
 
 		# mapping requests
 		19) if lsw | grep -q "$wid" >/dev/null; then
