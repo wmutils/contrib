@@ -5,7 +5,7 @@ NUM_WS=9
 
 help() {
 	cat << EOF
-usage: $(basename $0) [-hinp] [-g ws_num] [-m ws_num] 
+usage: $(basename $0) [-hinp] [-g ws_num] [-m ws_num]
 	-h: Displays this message
 	-i: Initialize workspaces. Should be called once in a startup script.
 	-n: Move up one workspace
@@ -25,52 +25,57 @@ ws_init() {
 	done
 	echo 0 > /tmp/workspaces/curr
 }
-# Saves all of the workspaces.
+# Saves all mapped windows to the current workspace.
 save_ws() {
-	curr=$(cat /tmp/workspaces/curr);
-	lsw > /tmp/workspaces/ws"$curr";
+	curr=$(cat /tmp/workspaces/curr)
+	lsw > /tmp/workspaces/ws"$curr"
 }
 move_to_ws() {
-	ws_num=$1;
+	ws_num=$1
 	if [ $ws_num -gt $NUM_WS ] || [ $ws_num -lt 0 ]; then
 		echo "Workspace not found"
 		return
 	fi
-	save_ws;
+	save_ws
 	mapw -u $(lsw)
 	mapw -m $(cat /tmp/workspaces/ws"$ws_num")
 	echo $ws_num > /tmp/workspaces/curr
 }
 next_ws() {
 	# Get what ws we're currently in.
-	curr=$(cat /tmp/workspaces/curr);
-	curr=$(expr $curr + 1);
+	curr=$(cat /tmp/workspaces/curr)
+	curr=$(expr $curr + 1)
 
 	# Take care of loopback.
 	if [ $curr -gt $NUM_WS ]; then
-		curr=0;
+		curr=0
 	fi
 
-	move_to_ws $curr;
+	move_to_ws $curr
 }
 prev_ws() {
 	# Get what ws we're currently in.
-	curr=$(cat /tmp/workspaces/curr);
-	curr=$(expr $curr - 1);
+	curr=$(cat /tmp/workspaces/curr)
+	curr=$(expr $curr - 1)
 
 	# Take care of loopback.
 	if [ $curr -lt 0 ]; then
 		curr=$NUM_WS
 	fi
 
-	move_to_ws $curr;
+	move_to_ws $curr
 }
 move_focused_window() {
-	wid=$(pfw);
+	ws_num=$1
+	if [ $ws_num -gt $NUM_WS ] || [ $ws_num -lt 0 ]; then
+		echo "Workspace not found"
+		return
+	fi
+	wid=$(pfw)
 	curr_ws=$(cat /tmp/workspaces/curr);
 	if [ $wid != curr_ws ]; then
-		pfw >> /tmp/workspaces/ws"$1";
-		mapw -u $wid;
+		pfw >> /tmp/workspaces/ws"$1"
+		mapw -u $wid
 	fi
 }
 while getopts ":m:g:npi" opt; do
