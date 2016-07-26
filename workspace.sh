@@ -37,8 +37,14 @@ move_to_ws() {
 		return
 	fi
 	save_ws
-	mapw -u $(lsw)
-	mapw -m $(cat /tmp/workspaces/ws"$ws_num")
+	curr_windows=$(lsw)
+	if [ "$curr_windows" ]; then
+		mapw -u $(lsw)
+	fi
+	new_windows="$(cat /tmp/workspaces/ws$ws_num)"
+	if [ "$new_windows" ]; then
+		mapw -m $new_windows
+	fi
 	echo $ws_num > /tmp/workspaces/curr
 }
 next_ws() {
