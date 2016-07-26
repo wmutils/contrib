@@ -68,10 +68,10 @@ snap_bl()
 }
 
 case $1 in
-    h|a|east|left)  snap_left ;;
+    h|a|west|left)  snap_left ;;
     j|s|south|down) snap_down ;;
     k|w|north|up)   snap_up ;;
-    l|d|west|right) snap_right ;;
+    l|d|east|right) snap_right ;;
     tr|northeast)   snap_tr ;;
     br|southeast)   snap_br ;;
     tl|northwest)   snap_tl ;;

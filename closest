@@ -12,11 +12,11 @@ usage() {
     exit 1
 }
 
-next_east() {
+next_west() {
     lsw | xargs wattr xi | sort -nr | sed "0,/$CUR/d" | sed "1s/^[0-9]* //p;d"
 }
 
-next_west() {
+next_east() {
     lsw | xargs wattr xi | sort -n | sed "0,/$CUR/d" | sed "1s/^[0-9]* //p;d"
 }
 
@@ -30,10 +30,10 @@ next_south() {
 
 # Use the specification of your choice: WASD, HJKL, ←↑↓→, west/north/south/east
 case $1 in
-    h|a|east|left)  wid=$(next_east)  ;;
+    h|a|west|left)  wid=$(next_west)  ;;
     j|s|south|down) wid=$(next_south) ;;
     k|w|north|up)   wid=$(next_north) ;;
-    l|d|west|right) wid=$(next_west)  ;;
+    l|d|east|right) wid=$(next_east)  ;;
     *)              usage             ;;
 esac
 
