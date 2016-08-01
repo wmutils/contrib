@@ -56,9 +56,7 @@ map_group() {
     echo $1 >> $FSDIR/active
 
     # loop through group and map windows
-    while read line; do
-        mapw -m $line
-    done < $FSDIR/group.$1
+	xargs mapw -m <$FSDIR/group.$1
 }
 
 # hides all the windows in group ($1)
