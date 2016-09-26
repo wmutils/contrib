@@ -1,0 +1,31 @@
+#!/bin/sh
+
+wn=$(mktemp /tmp/XXXXXX.winnum)
+lsw >"$wn"
+
+while IFS=: read ev wid; do
+	case $ev in
+		# entering window
+		7) if lsw | grep -q "$wid" >/dev/null; then focus $wid; fi ;;
+
+		#focus into window
+		9) if lsw | grep -q "$wid" >/dev/null; then focus $wid; fi ;;
+
+		# window creation
+		16) if lsw | grep -q "$wid" >/dev/null; then focus $wid; lsw >"$wn"; fi ;;
+
+		17|18) if [ $(lsw | wc -l) != '0' ] && grep "$wid" "$wn"; then
+			focus $(lsw | head -1);
+			lsw >"$wn"
+		fi
+		;;
+
+		# mapping requests
+		19) if lsw | grep -q "$wid" >/dev/null; then
+			focus $wid;
+			lsw >"$wn"
+		fi ;;
+	esac
+done
+
+rm "$wn"

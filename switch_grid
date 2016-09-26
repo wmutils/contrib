@@ -6,7 +6,7 @@
 # When used puts all the windows in a grid and when you focus one of the windows
 # it puts all the windows back to their original location and focuses the window
 # you switched to.
-# depends on: wew focus.sh
+# depends on: wew focus
 
 TEMP=$(mktemp) && wattr xywhi $(lsw) > $TEMP
 NB=$(wc -l < $TEMP) # NB as in NumBer of windows
@@ -84,7 +84,7 @@ wew -m 4 | while IFS=: read ev wid; do
         while read line; do
             wtp $line
         done < $TEMP
-        focus.sh $wid
+        focus $wid
         killall wew
     fi
 done
