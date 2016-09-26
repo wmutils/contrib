@@ -78,4 +78,16 @@ Adds group-like capabilities, sorta like those you find in CWM and such WMs.
            -u unmaps (hides) group
            -U unmaps all the groups
 
+### workspace.sh
+Groups windows into workspaces. Stores the current workspace index in /tmp/workspaces/curr by default.
+
+	usage: workspace.sh [-hinp] [-g ws_num] [-m ws_num] 
+		-h: Displays this message
+		-i: Initialize workspaces. Should be called once in a startup script.
+		-n: Move up one workspace
+		-p: Move down one workspace
+		-g, <ws_num>: go to the workspace specified by <ws_num>
+		-m, <ws_num>: move the currently focused window to the worskpace specified by <ws_num>
+
+
 *... to be continued*
