@@ -1,7 +1,7 @@
 contrib
 =======
 
-Repository hosting inspirationnal wmutils snippets.
+Repository hosting inspirational wmutils snippets.
 
 ### tile.sh
 Arrange your windows in a tiled pattern consisting of one master area, and a
