@@ -31,15 +31,21 @@ FSDIR=${FSDIR:-/tmp/groups.sh}
 
 # clean WID ($1) from group files
 clean_wid() {
-    # TODO: make POSIX compatible, -i is a GNU-ism
-    sed -i "/$1/d" $FSDIR/group.*
+    t=$(mktemp /tmp/groups.XXXXXX)
+    for x in $(ls $FSDIR/group.*); do
+        sed "/$1/d" "$x" >"$t"
+        mv "$t" "$x"
+    done
+    rm -f "$t"
 }
 
 # cleans group ($1) from (in)active files
 clean_status() {
-    # TODO: make POSIX compatible, -i is a GNU-ism
-    sed -i "/$1/d" $FSDIR/active
-    sed -i "/$1/d" $FSDIR/inactive
+    t=$(mktemp /tmp/groups.XXXXXX)
+    sed "/$1/d" $FSDIR/active >"$t"
+    mv "$t" $FSDIR/active
+    sed "/$1/d" $FSDIR/inactive >"$t"
+    mv "$t" $FSDIR/inactive
 }
 
 # shows all the windows in group ($1)
@@ -80,6 +86,10 @@ unmap_group() {
 
 # assigns WID ($1) to the group ($2)
 set_group() {
+    #so that neither grep nor ls in clean_wid complain
+    #when group.$2 does not exist
+    touch $FSDIR/group.$2
+
     # make sure we've no duplicates
     clean_wid $1
     clean_status $2
@@ -143,8 +153,9 @@ cleanup_everything() {
     # remove groups that don't exist from 'all'
     while read line; do
         if [ ! -f $FSDIR/group.$line ]; then
-            # TODO: make POSIX compatible, -i is a GNU-ism
-            sed -i "/$line/d" $FSDIR/all
+            t=$(mktemp /tmp/groups.XXXXXX)
+            sed "/$line/d" $FSDIR/all >"$t"
+            mv "$t" $FSDIR/all
             clean_status $line
         fi
     done < $FSDIR/all
