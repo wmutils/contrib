@@ -64,6 +64,16 @@ Depends on xorg-xprop
 
     usage: deletelock.sh <lock|unlock|toggle|status> <wid>
 
+### mouse.sh
+Toggle usage of mouse. When disabling the mouse, the pointer is sent to the
+bottom-right corner of the screen and when enabling the mouse, the pointer is
+sent to the middle of the active window. Can be sourced to use its own
+functions in your own scripts.
+
+Depends on xorg-xinput
+
+    usage: mouse.sh <enable|disable|toggle>
+
 ### groups.sh
 Adds group-like capabilities, sorta like those you find in CWM and such WMs.
 
