@@ -63,22 +63,22 @@ main(int argc, char **argv)
 	while (*argv)
 		win = strtoul(*argv++, NULL, 16);
 
-		xcb_icccm_get_wm_protocols_reply_t reply;
-		unsigned int i = 0;
-		bool got = false;
+	xcb_icccm_get_wm_protocols_reply_t reply;
+	unsigned int i = 0;
+	bool got = false;
 
-		if (xcb_icccm_get_wm_protocols_reply(conn, xcb_icccm_get_wm_protocols(conn, win, xcb_atom_get(conn, "WM_PROTOCOLS")), &reply, NULL)) {
-			for (; i != reply.atoms_len; ++i)
-				if ((got = reply.atoms[i] == xcb_atom_get(conn, "WM_DELETE_WINDOW")))
-					break;
+	if (xcb_icccm_get_wm_protocols_reply(conn, xcb_icccm_get_wm_protocols(conn, win, xcb_atom_get(conn, "WM_PROTOCOLS")), &reply, NULL)) {
+		for (; i != reply.atoms_len; ++i)
+			if ((got = reply.atoms[i] == xcb_atom_get(conn, "WM_DELETE_WINDOW")))
+				break;
 
-			xcb_icccm_get_wm_protocols_reply_wipe(&reply);
-		}
-		
-		if (got)
-			delete_window(win);
-		else
-			xcb_kill_client(conn, win);
+		xcb_icccm_get_wm_protocols_reply_wipe(&reply);
+	}
+	
+	if (got)
+		delete_window(win);
+	else
+		xcb_kill_client(conn, win);
 
 	xcb_flush(conn);
 
