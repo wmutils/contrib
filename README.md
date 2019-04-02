@@ -96,7 +96,7 @@ Uses `$GAP` from environment.
 
 Depends on xorg-xprop
 
-    usage: gridder.sh <init|move|resize> <wid> [x, y]
+    usage: gridder.sh <init|move|resize> [x, y]
 
 
 *... to be continued*
