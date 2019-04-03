@@ -92,9 +92,7 @@ Groups windows into workspaces. Stores the current workspace index in /tmp/works
 
 ### gridder.sh
 Place the current window on a virtual grid. Allows to resize and move windows on the grid.
-Uses `$GAP` from environment.
-
-Depends on xorg-xprop
+Uses `$GAP` and `$GRDDIR` from environment.
 
     usage: gridder.sh <init|move|resize> [x, y]
 
