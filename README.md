@@ -78,6 +78,12 @@ Adds group-like capabilities, sorta like those you find in CWM and such WMs.
            -u unmaps (hides) group
            -U unmaps all the groups
 
+### wmnenu.sh
+
+Uses wname and dmenu to produce a window selection menu similar to CWM's
+menu-window option. Upon selection the script outputs the chosen window id that
+can then be piped to a focus script.
+
 ### workspace.sh
 Groups windows into workspaces. Stores the current workspace index in /tmp/workspaces/curr by default.
 
