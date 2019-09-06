@@ -35,13 +35,24 @@ environment.
 
     usage: rainbow.sh
 
+### adjust.sh
+
+Move the current or given window id in a direction.
+
+    Usage:
+        $ $base up    | --up)    Move $JUMP pixels up.
+        $ $base down  | --down)  Move $JUMP pixels down.
+        $ $base left  | --left)  Move $JUMP pixels left.
+        $ $base right | --right) Move $JUMP pixels right.
+
+
 ### closest.sh
 Focus the closest window in a specific direction.
 
     usage: closest.sh <direction>
 
 ### underneath.sh
-Produce window id directely underneath cursor.
+Produce window id directly underneath cursor.
 
 Example sxhkd binding:
 
