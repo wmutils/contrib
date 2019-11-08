@@ -4,9 +4,9 @@
 # focus a window when it is created
 # depends on: wew focus.sh
 
-wew | while IFS=: read ev wid; do
+wew | while IFS="$(printf '\t')" read -r ev wid; do
     case $ev in
         # occurs on mapping requests
-        19) wattr o $wid || focus.sh $wid ;;
+        "MAP") wattr o "$wid" || focus.sh "$wid" ;;
     esac
 done
