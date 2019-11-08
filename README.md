@@ -78,7 +78,7 @@ Adds group-like capabilities, sorta like those you find in CWM and such WMs.
            -u unmaps (hides) group
            -U unmaps all the groups
 
-### wmnenu.sh
+### wmenu.sh
 
 Uses wname and dmenu to produce a window selection menu similar to CWM's
 menu-window option. Upon selection the script outputs the chosen window id that
