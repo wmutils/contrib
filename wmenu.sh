@@ -9,6 +9,6 @@ LINES=$(lsw | wc -l)
 wid=$(\
     for wid in $(lsw); do
         printf '%s\n' "$wid | $(wname $wid)"
-    done | dmenu -name "wmenu" -l $LINES -p "Window:" | cut -d\  -f 1)
+    done | dmenu -l $LINES -p "Window:" | cut -d\  -f 1)
 
 test -n "$wid" && focus.sh "$wid"
